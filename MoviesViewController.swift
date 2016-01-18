@@ -21,17 +21,18 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
     
+    let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+    
+        
     tableView.dataSource = self
     tableView.delegate = self
     
 
     let apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed"
-    
-    
-        
     let url = NSURL(string:"https://api.themoviedb.org/3/movie/now_playing?api_key=\(apiKey)")
     
-        
     let request = NSURLRequest(URL: url!)
     let session = NSURLSession(
         configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
@@ -60,6 +61,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        self.tableView.reloadData()
+        refreshControl.endRefreshing()
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
