@@ -84,6 +84,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
         
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.redColor()
+        cell.selectedBackgroundView = backgroundView
+
         let movie = movies![indexPath.row]
         let title = movie["title"] as! String
         let overview = movie["overview"] as! String
@@ -93,8 +97,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let baseUrl = "http://image.tmdb.org/t/p/w500"
         
         if let posterPath = movie["poster_path"] as? String{
-        let imageURL = NSURL(string: baseUrl + posterPath)
-        cell.posterView.setImageWithURL(imageURL!)
+            let imageURL = NSURL(string: baseUrl + posterPath)
+            cell.posterView.setImageWithURL(imageURL!)
         }
        
         
@@ -102,6 +106,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
  
+    
     func delay(delay:Double, closure:()->()) {
         dispatch_after(
             dispatch_time(
